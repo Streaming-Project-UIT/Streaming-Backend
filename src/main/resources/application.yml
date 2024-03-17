@@ -1,0 +1,6 @@
+spring:
+  data:
+    mongodb:
+      # uri: mongodb+srv://21520638:uEFFZrdmpN66wkfM@rythmcluster.ikebc6e.mongodb.net/?retryWrites=true&w=majority
+      uri: mongodb+srv://DatUIT:Dat123456@cluster.m2llhyq.mongodb.net/
+      database: streaming
