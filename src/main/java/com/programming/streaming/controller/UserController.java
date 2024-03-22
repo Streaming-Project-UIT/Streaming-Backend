@@ -1,31 +1,48 @@
 package com.programming.streaming.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import com.programming.streaming.service.UserService;
-import com.programming.streaming.repository.UserRepository;
-
-import org.springframework.web.bind.annotation.GetMapping;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import com.programming.streaming.model.User;
-import com.programming.streaming.model.UserRegistrationService;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.RestController;
+import com.programming.streaming.entity.AuthUser;
+import com.programming.streaming.repository.AuthUserRepository;
+import org.springframework.web.bind.annotation.GetMapping;
 @RestController
-@RequestMapping("/api/users")
+@AllArgsConstructor
 public class UserController {
-    @Autowired
-    UserRegistrationService userRegistrationService;
 
-    @GetMapping("/register")
-    @ResponseStatus(HttpStatus.OK)
-    public String register(Authentication authentication) {
-        Jwt jwt = (Jwt) authentication.getPrincipal();
+    private final AuthUserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-        return userRegistrationService.registerUser(jwt.getTokenValue());
+    @PostMapping("/register")
+    public ResponseEntity registerUser(@RequestBody AuthUser user) {
+        try {
+            if (userRepository.findByUsername(user.getUsername()).isPresent())
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already taken. Please try again");
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            AuthUser save = userRepository.save(user);
+            return ResponseEntity.ok(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+    @GetMapping("/listUser")
+    public ResponseEntity listUser() {
+        try {
+            return ResponseEntity.ok(userRepository.findAll());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+    @GetMapping("/listUserbyUsername")
+    public ResponseEntity listUserbyUsername(@RequestBody AuthUser user) {
+        try {
+            return ResponseEntity.ok(userRepository.findByUsername(user.getUsername()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 }
