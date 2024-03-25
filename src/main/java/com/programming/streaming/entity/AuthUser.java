@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 @Data
 @Builder
 @Document("user")
@@ -15,4 +16,9 @@ public class AuthUser {
     private String username;
     private String password;
     private boolean active;
+
+    private String firstName;
+    private String lastName;
+    private String picture;
+    private String sub;
 }

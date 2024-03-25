@@ -24,6 +24,14 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/register", "/error").permitAll()
+                        .requestMatchers("/listUser").permitAll()
+                        .requestMatchers("/videos/upload").permitAll()
+                        .requestMatchers("/videos/list").permitAll()
+                        .requestMatchers("/file/upload").permitAll()
+                        .requestMatchers("/file/list").permitAll()
+                        .requestMatchers("/file/downloadZipFile").permitAll()
+
+                        
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())

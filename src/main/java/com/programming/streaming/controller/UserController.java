@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.programming.streaming.entity.AuthUser;
 import com.programming.streaming.repository.AuthUserRepository;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+
 @RestController
 @AllArgsConstructor
 public class UserController {
@@ -17,6 +20,7 @@ public class UserController {
     private final AuthUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register")
     public ResponseEntity registerUser(@RequestBody AuthUser user) {
         try {
@@ -29,6 +33,7 @@ public class UserController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+
     @GetMapping("/listUser")
     public ResponseEntity listUser() {
         try {
@@ -37,6 +42,7 @@ public class UserController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+
     @GetMapping("/listUserbyUsername")
     public ResponseEntity listUserbyUsername(@RequestBody AuthUser user) {
         try {
