@@ -12,7 +12,6 @@
 The backend of this streaming project exposes the following API endpoints:
 
 1. `http://localhost:8080/register` <br/>
-
 ![alt text](image-1.png)
 
 
