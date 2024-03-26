@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - Dev
+  pull-request:
+    branches:
+      - "main"
+    path:
+      - ".github/main.yml"
 
 jobs:
   build-deploy:
