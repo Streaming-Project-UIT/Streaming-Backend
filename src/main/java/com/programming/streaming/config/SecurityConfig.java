@@ -28,6 +28,8 @@ public class SecurityConfig {
                         .requestMatchers("/listUser").permitAll()
                         .requestMatchers("/video/upload").permitAll()
                         .requestMatchers("/video/get").permitAll()
+                        .requestMatchers("/comment/addComment").permitAll()
+                        .requestMatchers("/comment/listComment").permitAll()
 
                         .requestMatchers("/login").permitAll()
 
