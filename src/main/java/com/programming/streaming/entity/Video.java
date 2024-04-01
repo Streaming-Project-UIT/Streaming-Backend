@@ -1,63 +1,59 @@
 package com.programming.streaming.entity;
-
-
 public class Video {
 
-    private String videoName;
-    private String videoType;
-    private String videoSize;
-    private byte[] video;
-    private String title;
+    private String filename;
+    private String fileType;
+    private String fileSize;
+    private byte[] file;
     private String description;
+    private String userID;
 
-    public String getTitle() {
-        return title;
+    public String getUserID() {
+        return userID;
     }
-
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
     public String getDescription() {
         return description;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public Video() {
     }
 
-    public String getVideoName() {
-        return videoName;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setVideoName(String videoName) {
-        this.videoName = videoName;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
-    public String getVideoType() {
-        return videoType;
+    public String getFileType() {
+        return fileType;
     }
 
-    public void setVideoType(String videoType) {
-        this.videoType = videoType;
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 
-    public String getVideoSize() {
-        return videoSize;
+    public String getFileSize() {
+        return fileSize;
     }
 
-    public void setVideoSize(String videoSize) {
-        this.videoSize = videoSize;
+    public void setFileSize(String fileSize) {
+        this.fileSize = fileSize;
     }
 
-    public byte[] getVideo() {
-        return video;
+    public byte[] getFile() {
+        return file;
     }
 
-    public void setVideo(byte[] video) {
-        this.video = video;
+    public void setFile(byte[] file) {
+        this.file = file;
     }
 }

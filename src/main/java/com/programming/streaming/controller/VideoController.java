@@ -1,4 +1,5 @@
 package com.programming.streaming.controller;
+
 import com.programming.streaming.entity.Video;
 import com.programming.streaming.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -20,22 +23,29 @@ public class VideoController {
     @Autowired
     private VideoService videoService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestParam("video")MultipartFile video, 
-            @RequestParam("title") String title, @RequestParam("description") String description) throws IOException {
-        return new ResponseEntity<>(videoService.addVideo(video, title, description), HttpStatus.OK);
+    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file,
+            @RequestParam("userID") String userID) throws IOException {
+        return new ResponseEntity<>(videoService.addVideo(file, userID), HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/get/{id}")
     public ResponseEntity<ByteArrayResource> download(@PathVariable String id) throws IOException {
-        Video video = videoService.downloadFile(id);
+        Video loadFile = videoService.getVideo(id);
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(video.getVideoType() ))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + video.getVideoName() + "\"")
-                .body(new ByteArrayResource(video.getVideo()));
+                .contentType(MediaType.parseMediaType(loadFile.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + loadFile.getFilename() + "\"")
+                .body(new ByteArrayResource(loadFile.getFile()));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/getAllIds")
+    public ResponseEntity<?> getAllID() {
+        return new ResponseEntity<>(videoService.getAllVideoIDs(), HttpStatus.OK);
+    }
     
 
 }
