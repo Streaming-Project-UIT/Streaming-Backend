@@ -28,8 +28,13 @@ public class SecurityConfig {
                         .requestMatchers("/listUser").permitAll()
                         .requestMatchers("/video/upload").permitAll()
                         .requestMatchers("/video/get").permitAll()
-
+                        .requestMatchers("/video/get/**").permitAll()
+                        .requestMatchers("/video/getID").permitAll()
+                        .requestMatchers("/comment/addComment").permitAll()
+                        .requestMatchers("/comment/listComment").permitAll()
+                        .requestMatchers("/video/getAllIds").permitAll()
                         .requestMatchers("/login").permitAll()
+                        .requestMatchers("/login2").permitAll()
 
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

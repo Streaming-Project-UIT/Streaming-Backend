@@ -5,6 +5,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import org.apache.commons.io.IOUtils;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VideoService {
@@ -24,15 +28,12 @@ public class VideoService {
     @Autowired
     private GridFsOperations operations;
 
-    public String addVideo(MultipartFile upload, String title, String description) throws IOException {
+    public String addVideo(MultipartFile upload, String userID) throws IOException {
 
         // define additional metadata
         DBObject metadata = new BasicDBObject();
         metadata.put("fileSize", upload.getSize());
-
-
-        metadata.put("title", title);
-        metadata.put("description", description);
+        metadata.put("userID", userID);
         // store in database which returns the objectID
         Object fileID = template.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(),
                 metadata);
@@ -41,26 +42,37 @@ public class VideoService {
         return fileID.toString();
     }
 
-    public Video downloadFile(String id) throws IOException {
+    public Video getVideo(String id) throws IOException {
 
         // search file
         GridFSFile gridFSFile = template.findOne(new Query(Criteria.where("_id").is(id)));
 
         // convert uri to byteArray
         // save data to LoadFile class
-        Video video = new Video();
+        Video loadFile = new Video();
 
         if (gridFSFile != null && gridFSFile.getMetadata() != null) {
-            video.setVideoName(gridFSFile.getFilename());
+            loadFile.setFilename(gridFSFile.getFilename());
 
-            video.setVideoType(gridFSFile.getMetadata().get("_contentType").toString());
+            loadFile.setFileType(gridFSFile.getMetadata().get("_contentType").toString());
 
-            video.setVideoSize(gridFSFile.getMetadata().get("videoSize").toString());
-
-            video.setVideo(IOUtils.toByteArray(operations.getResource(gridFSFile).getInputStream()));
+            loadFile.setFileSize(gridFSFile.getMetadata().get("fileSize").toString());
+            loadFile.setFile(IOUtils.toByteArray(operations.getResource(gridFSFile).getInputStream()));
         }
 
-        return video;
+        return loadFile;
     }
+
+
+    public List<String> getAllVideoIDs() {
+        Query query = new Query(); // Tạo một truy vấn mới
+        return template.find(query)
+                .map(GridFSFile::getObjectId)
+                .map(ObjectId::toString)
+                .into(new ArrayList<>());
+    }
+
+
+
 
 }

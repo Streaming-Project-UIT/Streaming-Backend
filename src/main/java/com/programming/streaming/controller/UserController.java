@@ -34,6 +34,32 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/login2")
+    public ResponseEntity loginUser(@RequestBody AuthUser user) {
+        try {
+            AuthUser userFromDb = userRepository.findByUsername(user.getUsername())
+                    .orElseThrow(() -> new Exception("User not found"));
+            if (passwordEncoder.matches(user.getPassword(), userFromDb.getPassword())) {
+                return ResponseEntity.ok(userFromDb);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/logout")
+    public ResponseEntity logoutUser() {
+        try {
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/listUser")
     public ResponseEntity listUser() {
         try {
