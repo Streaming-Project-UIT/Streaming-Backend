@@ -15,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -26,15 +25,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/register", "/error").permitAll()
                         .requestMatchers("/listUser").permitAll()
-                        .requestMatchers("/video/upload").permitAll()
-                        .requestMatchers("/video/get").permitAll()
-                        .requestMatchers("/video/get/**").permitAll()
-                        .requestMatchers("/video/getID").permitAll()
-                        .requestMatchers("/comment/addComment").permitAll()
-                        .requestMatchers("/comment/listComment").permitAll()
-                        .requestMatchers("/video/getAllIds").permitAll()
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/login2").permitAll()
+                        .requestMatchers("/videos/upload").permitAll()
+                        .requestMatchers("/videos/list").permitAll()
+                        .requestMatchers("/file/upload").permitAll()
+                        .requestMatchers("/file/list").permitAll()
+                        .requestMatchers("/file/downloadZipFile").permitAll()
+                        .requestMatchers("/comments/upload").permitAll()
+                        .requestMatchers("/comments/**").permitAll()
 
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
