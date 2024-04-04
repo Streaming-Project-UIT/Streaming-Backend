@@ -31,7 +31,8 @@ public class SecurityConfig {
                         .requestMatchers("/file/list").permitAll()
                         .requestMatchers("/file/downloadZipFile").permitAll()
                         .requestMatchers("/comments/upload").permitAll()
-                        
+                        .requestMatchers("/comments/**").permitAll()
+
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
