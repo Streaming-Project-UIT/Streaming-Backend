@@ -5,6 +5,10 @@ import com.programming.streaming.entity.Comment;
 @Service
 public class CommentService {
 
-
+    
+    public Comment findById(String id) {
+        
+        return null;
+    }
     
 }
