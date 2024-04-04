@@ -30,7 +30,7 @@ public class SecurityConfig {
                         .requestMatchers("/file/upload").permitAll()
                         .requestMatchers("/file/list").permitAll()
                         .requestMatchers("/file/downloadZipFile").permitAll()
-
+                        .requestMatchers("/comments/upload").permitAll()
                         
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
