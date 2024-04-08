@@ -19,6 +19,7 @@ public class AuthUser {
 
     private String firstName;
     private String lastName;
-    private String picture;
+    // private String picture;
     private String sub;
+    private byte[] avatar;
 }

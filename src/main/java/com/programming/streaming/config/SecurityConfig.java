@@ -34,6 +34,8 @@ public class SecurityConfig {
                         .requestMatchers("/comments/**").permitAll()
                         .requestMatchers("/video/**").permitAll()
                         .requestMatchers("/login2").permitAll()
+                        .requestMatchers("/listUserbyId/**").permitAll()
+                        .requestMatchers("/updateProfile/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
