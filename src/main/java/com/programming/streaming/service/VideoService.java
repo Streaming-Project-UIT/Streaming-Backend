@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +29,16 @@ public class VideoService {
     @Autowired
     private GridFsOperations operations;
 
-    public String addVideo(MultipartFile upload, String userID) throws IOException {
-
-        // define additional metadata
+    public String addVideo(MultipartFile upload, String userID, byte[] thumbnail) throws IOException {
         DBObject metadata = new BasicDBObject();
         metadata.put("fileSize", upload.getSize());
         metadata.put("userID", userID);
-        // store in database which returns the objectID
+        metadata.put("videoId", new ObjectId().toString());
         Object fileID = template.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(),
                 metadata);
 
-        // return as a string
+        template.store(new ByteArrayInputStream(thumbnail) , upload.getOriginalFilename() + "_thumbnail", "image/png",
+                metadata);
         return fileID.toString();
     }
 

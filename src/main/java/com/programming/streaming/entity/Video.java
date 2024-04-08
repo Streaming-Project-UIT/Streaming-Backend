@@ -7,6 +7,7 @@ public class Video {
     private byte[] file;
     private String description;
     private String userID;
+    private byte[] thumbnail;
 
     public String getUserID() {
         return userID;
@@ -55,5 +56,12 @@ public class Video {
 
     public void setFile(byte[] file) {
         this.file = file;
+    }
+
+    public byte[] getThumbnail() {
+        return thumbnail;
+    }
+    public void setThumbnail(byte[] thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

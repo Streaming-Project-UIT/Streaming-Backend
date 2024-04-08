@@ -26,8 +26,10 @@ public class VideoController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file,
-            @RequestParam("userID") String userID) throws IOException {
-        return new ResponseEntity<>(videoService.addVideo(file, userID), HttpStatus.OK);
+            @RequestParam("userID") String userID,
+            @RequestParam("thumbnail") MultipartFile thumbnailFile) throws IOException {
+        byte[] thumbnail = thumbnailFile.getBytes();
+        return new ResponseEntity<>(videoService.addVideo(file, userID, thumbnail), HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
