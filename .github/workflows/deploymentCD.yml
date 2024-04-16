@@ -35,7 +35,7 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           project_id: ${{ env.PROJECT_ID }}
           export_default_credentials: true
-          
+
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
@@ -48,7 +48,6 @@ jobs:
           context: .
           push: true
           tags: gcr.io/${{ env.PROJECT_ID }}/gke_springapp:1.0
-          builder: gcr.io/cloud-builders/docker
 
       - name: Set cluster context
         run: |
