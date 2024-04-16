@@ -47,9 +47,9 @@ jobs:
         env:
           GOOGLE_PROJECT: ${{ env.PROJECT_ID }}
         run: |
-          gcloud auth configure-docker gcr.io
-          docker build -t gcr.io/$GOOGLE_PROJECT/gke_springapp:1.0 -f Dockerfile .
-          docker push gcr.io/$GOOGLE_PROJECT/gke_springapp:1.0
+          gcloud auth configure-docker asia-east1-docker.pkg.dev
+          docker build -t asia-east1-docker.pkg.dev/$GOOGLE_PROJECT/springapp/gke_springapp:1.0 -f Dockerfile .
+          docker push asia-east1-docker.pkg.dev/$GOOGLE_PROJECT/springapp/gke_springapp:1.0
 
       # - name: Build Image
       #   uses: docker/build-push-action@v2
