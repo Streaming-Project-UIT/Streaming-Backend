@@ -29,4 +29,4 @@ spec:
     spec:
       containers:
       - name: spring-app
-        image: gcr.io/devops-project-419807/GKE_SpringApp:1.0
+        image: gcr.io/devops-project-419807/gke_springapp:1.0

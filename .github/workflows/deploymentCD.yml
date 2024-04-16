@@ -23,7 +23,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: gcr.io/${{ env.PROJECT_ID }}/GKE_SpringApp:1.0
+          tags: gcr.io/${{ env.PROJECT_ID }}/gke_springapp:1.0
 
       - name: Configure gcloud
         uses: google-github-actions/setup-gcloud@v0
