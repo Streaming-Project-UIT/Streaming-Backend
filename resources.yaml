@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gke_springapp
+  name: springapp
 spec:
   type: LoadBalancer
   selector:
-    app: gke_springapp
+    app: springapp
   ports:
   - port: 80
     targetPort: 80
@@ -14,9 +14,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gke_springapp
+  name: springapp
   labels:
-    app: gke_springapp
+    app: springapp
 spec:
   replicas: 3
   selector:
@@ -28,5 +28,5 @@ spec:
         app: gke_springapp
     spec:
       containers:
-      - name: spring-app
+      - name: springapp
         image: asia-east1-docker.pkg.dev/$GOOGLE_PROJECT/springapp/gke_springapp:1.0
