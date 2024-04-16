@@ -34,6 +34,7 @@ jobs:
         with:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           project_id: ${{ env.PROJECT_ID }}
+          install_components: 'gke-gcloud-auth-plugin'
           export_default_credentials: true
 
       - name: Login to Docker Hub
