@@ -48,7 +48,7 @@ jobs:
           GOOGLE_PROJECT: ${{ env.PROJECT_ID }}
         run: |
           gcloud auth configure-docker gcr.io
-          docker build -t gcr.io/$GOOGLE_PROJECT/gke_springapp:1.0
+          docker build -t gcr.io/$GOOGLE_PROJECT/gke_springapp:1.0 -f Dockerfile .
           docker push gcr.io/$GOOGLE_PROJECT/gke_springapp:1.0
 
       # - name: Build Image
