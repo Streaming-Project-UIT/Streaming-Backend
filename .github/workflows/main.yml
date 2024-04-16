@@ -48,5 +48,3 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/docker-java-jar:today
            ###
-
-#------------------#
