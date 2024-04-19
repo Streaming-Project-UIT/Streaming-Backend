@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: springapp
+  name: frontend
 spec:
   type: LoadBalancer
   selector:
-    app: springapp
+    app: frontend
   ports:
   - port: 80
     targetPort: 80
@@ -14,18 +14,18 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: springapp
+  name: frontend
   labels:
-    app: springapp
+    app: frontend
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: gke_springapp
+      app: frontend
   template:
     metadata:
       labels:
-        app: gke_springapp
+        app: frontend
     spec:
       containers:
       - name: springapp
