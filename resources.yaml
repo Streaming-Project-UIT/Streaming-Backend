@@ -28,5 +28,5 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: springapp
+      - name: frontend
         image: asia-east1-docker.pkg.dev/$GOOGLE_PROJECT/springapp/gke_springapp:1.0
