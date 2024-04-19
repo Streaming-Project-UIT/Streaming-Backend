@@ -3,7 +3,7 @@ name: Deploy to GKE Autopilot
 on:
   push:
     branches:
-      - Dev
+      - main
 
 env:
   PROJECT_ID: devops-project-419807
