@@ -22,4 +22,6 @@ public class AuthUser {
     // private String picture;
     private String sub;
     private byte[] avatar;
+
+    private String email;
 }

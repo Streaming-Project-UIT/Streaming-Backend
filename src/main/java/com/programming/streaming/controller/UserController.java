@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
 import com.programming.streaming.entity.AuthUser;
 import com.programming.streaming.repository.AuthUserRepository;
 
@@ -20,12 +22,55 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 @RestController
 @AllArgsConstructor
 public class UserController {
 
     private final AuthUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+
+    static class Email {
+        private String email;
+
+        public String getEmail() {
+            return email;
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/send-verification-email")
+    public String sendVerificationEmail(@RequestBody String emailJson) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        System.out.println(emailJson);
+        Gson gson = new Gson();
+        Email emailObject = gson.fromJson(emailJson, Email.class);
+
+        // Extract email value
+        String email = emailObject.getEmail();
+
+        System.out.println(email);
+        System.out.println(email);
+        message.setTo(email);
+        System.out.println(email);
+        message.setSubject("Xác thực đăng ký");
+        String loginLink = "http://localhost:3000/login";
+        message.setText("Xin chào, vui lòng nhấn vào liên kết sau để xác thực đăng ký: " + loginLink);
+
+        try {
+            javaMailSender.send(message);
+            return "Email xác thực đã được gửi thành công";
+        } catch (MailException e) {
+            System.out.println(e.getMessage());
+            return "Gửi email xác thực thất bại: " + e.getMessage();
+        }
+    }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register")

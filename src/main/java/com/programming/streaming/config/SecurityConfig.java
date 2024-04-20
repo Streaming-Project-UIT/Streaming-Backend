@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/login2").permitAll()
                         .requestMatchers("/listUserbyId/**").permitAll()
                         .requestMatchers("/updateProfile/**").permitAll()
+                        .requestMatchers("/send-verification-email").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
