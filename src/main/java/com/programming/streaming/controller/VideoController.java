@@ -1,5 +1,6 @@
 package com.programming.streaming.controller;
 
+import com.mongodb.internal.connection.Time;
 import com.programming.streaming.entity.Video;
 import com.programming.streaming.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
-
+import java.sql.Timestamp;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("video")
@@ -29,7 +30,8 @@ public class VideoController {
             @RequestParam("userID") String userID,
             @RequestParam("thumbnail") MultipartFile thumbnailFile) throws IOException {
         byte[] thumbnail = thumbnailFile.getBytes();
-        return new ResponseEntity<>(videoService.addVideo(file, userID, thumbnail), HttpStatus.OK);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return new ResponseEntity<>(videoService.addVideo(file, userID, thumbnail, timestamp), HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

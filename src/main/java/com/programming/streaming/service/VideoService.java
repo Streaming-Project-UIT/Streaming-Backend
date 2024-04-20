@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import java.sql.Timestamp;
 @Service
 public class VideoService {
 
@@ -29,11 +29,12 @@ public class VideoService {
     @Autowired
     private GridFsOperations operations;
 
-    public String addVideo(MultipartFile upload, String userID, byte[] thumbnail) throws IOException {
+    public String addVideo(MultipartFile upload, String userID, byte[] thumbnail, Timestamp timestamp) throws IOException {
         DBObject metadata = new BasicDBObject();
         metadata.put("fileSize", upload.getSize());
         metadata.put("userID", userID);
         metadata.put("videoId", new ObjectId().toString());
+        metadata.put("timestamp", timestamp.toString());
         Object fileID = template.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(),
                 metadata);
 
