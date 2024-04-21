@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import java.sql.Timestamp;
 @RestController
 @AllArgsConstructor
 public class UserController {
@@ -61,7 +62,7 @@ public class UserController {
         System.out.println(email);
         message.setSubject("Xác thực đăng ký");
         String loginLink = "http://localhost:3000/login";
-        message.setText("Xin chào, vui lòng nhấn vào liên kết sau để xác thực đăng ký: " + loginLink);
+        message.setText("Xin chào, Bạn đã đăng ký tài khoản thành công!");
 
         try {
             javaMailSender.send(message);
@@ -82,6 +83,7 @@ public class UserController {
             user.setFirstName(user.getFirstName());
             user.setLastName(user.getLastName());
             user.setAvatar(getDefaultAvatar());
+            user.setTimestamp(new Timestamp(System.currentTimeMillis()));
             AuthUser save = userRepository.save(user);
             return ResponseEntity.ok(save);
         } catch (Exception e) {

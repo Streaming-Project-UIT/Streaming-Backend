@@ -5,7 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import java.sql.Timestamp;
 @Data
 @Builder
 @Document("user")
@@ -24,4 +24,7 @@ public class AuthUser {
     private byte[] avatar;
 
     private String email;
+
+    private Timestamp timestamp;
+
 }

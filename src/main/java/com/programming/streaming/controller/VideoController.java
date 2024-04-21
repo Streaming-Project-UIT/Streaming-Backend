@@ -16,6 +16,10 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.sql.Timestamp;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("video")
@@ -50,6 +54,17 @@ public class VideoController {
     public ResponseEntity<?> getAllID() {
         return new ResponseEntity<>(videoService.getAllVideoIDs(), HttpStatus.OK);
     }
-    
 
+    // @CrossOrigin(origins = "http://localhost:3000")
+    // @PutMapping("/increaseViews/{id}")
+    // public ResponseEntity<?> incrementViews(@PathVariable String id) {
+    //     try {
+    //         videoService.incrementViews(id);
+    //         return new ResponseEntity<>("Views for video with id " + id + " incremented successfully.", HttpStatus.OK);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>("Failed to increment views for video with id " + id + ".",
+    //                 HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+    // @CrossOrigin(origins = "http://localhost:3000")
 }
