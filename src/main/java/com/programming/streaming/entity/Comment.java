@@ -17,6 +17,6 @@ public class Comment {
     @Indexed
     private String text;
     private String author;
-    private int likeCount;
-    private int dislikeCount;
+    private int likes;
+    private int dislikes;
 }

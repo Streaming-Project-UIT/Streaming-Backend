@@ -2,12 +2,14 @@ package com.programming.streaming.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.programming.streaming.entity.AuthUser;
@@ -60,16 +62,30 @@ public class CommentController {
         try {
             Comment commentFromDb = commentRepository.findById(id)
                 .orElseThrow(() -> new Exception("Comment not found"));
-
             commentFromDb.setText(comment.getText());
             Comment save = commentRepository.save(commentFromDb);
-
             return ResponseEntity.ok(HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
-    
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/increaseLikes/{id}")
+    public ResponseEntity increaseLikes(@PathVariable("id") String id, @RequestParam int increment) {
+        try {
+            Comment commentFromDb = commentRepository.findById(id)
+                    .orElseThrow(() -> new Exception("Comment not found"));
+            commentFromDb.setLikes(commentFromDb.getLikes() + increment);
+            Comment save = commentRepository.save(commentFromDb);
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    // @CrossOrigin
+
     @PutMapping("/delete/{id}")
     public ResponseEntity deleteComment(@RequestBody Comment comment) {
         try {
