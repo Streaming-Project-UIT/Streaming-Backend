@@ -52,8 +52,8 @@ jobs:
           GOOGLE_PROJECT: ${{ env.PROJECT_ID }}
         run: |
           gcloud auth configure-docker asia-east1-docker.pkg.dev
-          docker build -t asia-east1-docker.pkg.dev/devops-project-419807/springapp/gke_springapp:1.0 .
-          docker push asia-east1-docker.pkg.dev/$GOOGLE_PROJECT/springapp/gke_springapp:1.0
+          docker build -t asia-east1-docker.pkg.dev/devops-project-419807/backend/gke_springapp:1.0 .
+          docker push asia-east1-docker.pkg.dev/$GOOGLE_PROJECT/backend/gke_springapp:1.0
 
       # - name: Build Image
       #   uses: docker/build-push-action@v2
@@ -70,3 +70,7 @@ jobs:
         run: |
           kubectl apply -f resources.yaml
    
+
+
+
+          

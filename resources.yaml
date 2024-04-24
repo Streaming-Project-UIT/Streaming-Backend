@@ -18,7 +18,7 @@ metadata:
   labels:
     app: backend
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -29,4 +29,14 @@ spec:
     spec:
       containers:
       - name: backend
-        image: asia-east1-docker.pkg.dev/$GOOGLE_PROJECT/springapp/gke_springapp:1.0
+        image: asia-east1-docker.pkg.dev/devops-project-419807/backend/gke_springapp:1.0
+        env:
+        - name: PORT
+          value: "80"
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+          limits:
+            memory: 512Mi
+            cpu: "1"
