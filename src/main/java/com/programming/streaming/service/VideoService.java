@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -81,7 +82,26 @@ public class VideoService {
 
         return loadFile;
     }
-    
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    public void updateViews(String id) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update().inc("views", 1);
+        mongoTemplate.updateFirst(query, update, "fs.files");
+    }
+
+    public void updateLikes(String id) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update().inc("likes", 1);
+        mongoTemplate.updateFirst(query, update, "fs.files");
+    }
+
+    public void updateDislikes(String id) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update().inc("dislikes", 1);
+        mongoTemplate.updateFirst(query, update, "fs.files");
+    }
     
 }

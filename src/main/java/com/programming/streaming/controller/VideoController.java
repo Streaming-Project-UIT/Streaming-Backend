@@ -55,16 +55,26 @@ public class VideoController {
         return new ResponseEntity<>(videoService.getAllVideoIDs(), HttpStatus.OK);
     }
 
-    // @CrossOrigin(origins = "http://localhost:3000")
-    // @PutMapping("/increaseViews/{id}")
-    // public ResponseEntity<?> incrementViews(@PathVariable String id) {
-    //     try {
-    //         videoService.incrementViews(id);
-    //         return new ResponseEntity<>("Views for video with id " + id + " incremented successfully.", HttpStatus.OK);
-    //     } catch (Exception e) {
-    //         return new ResponseEntity<>("Failed to increment views for video with id " + id + ".",
-    //                 HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
-    // @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/updateViews/{id}")
+    public ResponseEntity<?> updateViews(@PathVariable String id) {
+        videoService.updateViews(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/updateLikes/{id}")
+    public ResponseEntity<?> updateLikes(@PathVariable String id) {
+        videoService.updateLikes(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/updateDislikes/{id}")
+    public ResponseEntity<?> updateDislikes(@PathVariable String id) {
+        videoService.updateDislikes(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    
 }
