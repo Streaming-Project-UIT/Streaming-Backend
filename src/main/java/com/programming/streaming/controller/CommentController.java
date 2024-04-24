@@ -84,7 +84,47 @@ public class CommentController {
         }
     }
 
-    // @CrossOrigin
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/increaseDislikes/{id}")
+    public ResponseEntity increaseDislikes(@PathVariable("id") String id, @RequestParam int increment) {
+        try {
+            Comment commentFromDb = commentRepository.findById(id)
+                    .orElseThrow(() -> new Exception("Comment not found"));
+            commentFromDb.setDislikes(commentFromDb.getDislikes() + increment);
+            Comment save = commentRepository.save(commentFromDb);
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/decreaseLikes/{id}")
+    public ResponseEntity decreaseLikes(@PathVariable("id") String id, @RequestParam int decrement) {
+        try {
+            Comment commentFromDb = commentRepository.findById(id)
+                    .orElseThrow(() -> new Exception("Comment not found"));
+            commentFromDb.setLikes(commentFromDb.getLikes() - decrement);
+            Comment save = commentRepository.save(commentFromDb);
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/decreaseDislikes/{id}")
+    public ResponseEntity decreaseDislikes(@PathVariable("id") String id, @RequestParam int decrement) {
+        try {
+            Comment commentFromDb = commentRepository.findById(id)
+                    .orElseThrow(() -> new Exception("Comment not found"));
+            commentFromDb.setDislikes(commentFromDb.getDislikes() - decrement);
+            Comment save = commentRepository.save(commentFromDb);
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
 
     @PutMapping("/delete/{id}")
     public ResponseEntity deleteComment(@RequestBody Comment comment) {
