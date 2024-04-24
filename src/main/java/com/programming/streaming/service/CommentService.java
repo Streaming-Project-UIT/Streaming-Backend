@@ -1,7 +1,8 @@
 package com.programming.streaming.service;
 
 import org.springframework.stereotype.Service;
-import com.programming.streaming.entity.Comment;
+
+import com.programming.streaming.model.Comment;
 @Service
 public class CommentService {
 

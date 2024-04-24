@@ -1,7 +1,7 @@
-package com.programming.streaming.controller;
+package com.programming.streaming.controller.Client;
 
 import com.mongodb.internal.connection.Time;
-import com.programming.streaming.entity.Video;
+import com.programming.streaming.model.Video;
 import com.programming.streaming.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;

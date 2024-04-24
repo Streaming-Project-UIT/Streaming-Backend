@@ -1,4 +1,4 @@
-package com.programming.streaming.controller;
+package com.programming.streaming.controller.Client;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.programming.streaming.entity.AuthUser;
-import com.programming.streaming.repository.AuthUserRepository;
+import com.programming.streaming.repository.Client.AuthUserRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

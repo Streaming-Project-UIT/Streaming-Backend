@@ -1,10 +1,11 @@
 package com.programming.streaming.service;
 
-import com.programming.streaming.entity.Video;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import com.programming.streaming.model.Video;
+
 import org.apache.commons.io.IOUtils;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -43,9 +44,6 @@ public class VideoService {
         metadata.put("userID", userID);
         metadata.put("videoId", new ObjectId().toString());
         metadata.put("timestamp", timestamp.toString());
-        metadata.put("likes", 0);
-        metadata.put("dislikes", 0);
-        metadata.put("views", 0);
         Object fileID = template.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(),
                 metadata);
 

@@ -1,4 +1,4 @@
-package com.programming.streaming.controller;
+package com.programming.streaming.controller.Client;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.programming.streaming.entity.AuthUser;
-import com.programming.streaming.repository.CommentRepository;
+import com.programming.streaming.model.Comment;
+import com.programming.streaming.repository.Client.CommentRepository;
 import com.programming.streaming.service.CommentService;
 
 import lombok.AllArgsConstructor;
-import com.programming.streaming.entity.Comment;
 
 @RestController
 @RequestMapping("/comments")
