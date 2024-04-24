@@ -9,7 +9,7 @@ spec:
     app: backend
   ports:
   - port: 80
-    targetPort: 8080
+    targetPort: 80
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -32,7 +32,7 @@ spec:
         image: asia-east1-docker.pkg.dev/devops-project-419807/backend/gke_springapp:1.0
         env:
         - name: PORT
-          value: "8080"
+          value: "80"
         resources:
           requests:
             memory: 256Mi
