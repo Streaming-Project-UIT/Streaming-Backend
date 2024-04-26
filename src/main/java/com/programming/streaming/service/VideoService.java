@@ -39,17 +39,24 @@ public class VideoService {
 
     public String addVideo(MultipartFile upload, String userID, byte[] thumbnail, Timestamp timestamp)
             throws IOException {
-        DBObject metadata = new BasicDBObject();
-        metadata.put("fileSize", upload.getSize());
-        metadata.put("userID", userID);
-        metadata.put("videoId", new ObjectId().toString());
-        metadata.put("timestamp", timestamp.toString());
-        Object fileID = template.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(),
-                metadata);
+        DBObject videoMetadata = new BasicDBObject();
+        videoMetadata.put("fileSize", upload.getSize());
+        videoMetadata.put("userID", userID);
+        videoMetadata.put("videoId", new ObjectId().toString());
+        videoMetadata.put("timestamp", timestamp.toString());
+        Object videoID = template.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(),
+                videoMetadata);
 
-        template.store(new ByteArrayInputStream(thumbnail), upload.getOriginalFilename() + "_thumbnail", "image/png",
-                metadata);
-        return fileID.toString();
+        DBObject thumbnailMetadata = new BasicDBObject();
+        thumbnailMetadata.put("fileSize", thumbnail.length);
+        thumbnailMetadata.put("userID", userID);
+        thumbnailMetadata.put("videoId", videoID.toString());
+        thumbnailMetadata.put("timestamp", timestamp.toString());
+        Object thumbnailID = template.store(new ByteArrayInputStream(thumbnail),
+                upload.getOriginalFilename() + "_thumbnail", "image/png",
+                thumbnailMetadata);
+
+        return videoID.toString();
     }
 
     public List<String> getAllVideoIDs() {
@@ -58,6 +65,21 @@ public class VideoService {
                 .map(GridFSFile::getObjectId)
                 .map(ObjectId::toString)
                 .into(new ArrayList<>());
+    }
+
+    public List<String> listIdThumbnail() {
+        Query query = Query.query(Criteria.where("metadata._contentType").is("image/png"));
+        return template.find(query)
+                .map(GridFSFile::getObjectId)
+                .map(ObjectId::toString)
+                .into(new ArrayList<>());
+    }
+
+
+    public String getVideoIdFromThumbnailId(String thumbnailId) {
+        Query query = Query.query(Criteria.where("_id").is(thumbnailId));
+        GridFSFile gridFSFile = template.findOne(query);
+        return gridFSFile.getMetadata().get("videoId").toString();
     }
 
     public Video getVideo(String id) throws IOException {
@@ -80,6 +102,8 @@ public class VideoService {
 
         return loadFile;
     }
+
+   
 
     @Autowired
     private MongoTemplate mongoTemplate;

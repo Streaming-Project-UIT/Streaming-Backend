@@ -49,10 +49,25 @@ public class VideoController {
                 .body(new ByteArrayResource(loadFile.getFile()));
     }
 
+
+
+
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getAllIds")
     public ResponseEntity<?> getAllID() {
         return new ResponseEntity<>(videoService.getAllVideoIDs(), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/listIdThumbnail")
+    public ResponseEntity<?> listIdThumbnail() {
+        return new ResponseEntity<>(videoService.listIdThumbnail(), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/getVideoIdFromThumbnailId/{id}")
+    public ResponseEntity<?> getVideoIdFromThumbnailId(@PathVariable String id) {
+        return new ResponseEntity<>(videoService.getVideoIdFromThumbnailId(id), HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
