@@ -45,7 +45,7 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PostMapping("/send-verification-email")
     public String sendVerificationEmail(@RequestBody String emailJson) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -61,7 +61,7 @@ public class UserController {
         message.setTo(email);
         System.out.println(email);
         message.setSubject("Xác thực đăng ký");
-        String loginLink = "http://localhost:3000/login";
+        String loginLink = "*/login";
         message.setText("Xin chào, Bạn đã đăng ký tài khoản thành công!");
 
         try {
@@ -73,7 +73,7 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PostMapping("/register")
     public ResponseEntity registerUser(@RequestBody AuthUser user) {
         try {
@@ -98,7 +98,7 @@ public class UserController {
         return Files.readAllBytes(path);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PostMapping("/login2")
     public ResponseEntity loginUser(@RequestBody AuthUser user) {
         try {
@@ -114,7 +114,7 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PostMapping("/logout")
     public ResponseEntity logoutUser() {
         try {
@@ -142,7 +142,7 @@ public class UserController {
         }
     }
     
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @GetMapping("/listUserbyId/{id}")
     public ResponseEntity listUserbyId(@PathVariable("id") String id) {
         try {
@@ -151,7 +151,7 @@ public class UserController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PutMapping("/updateProfile/{id}")
     public ResponseEntity updateProfile(@PathVariable("id") String id, @RequestBody AuthUser user) {
         try {

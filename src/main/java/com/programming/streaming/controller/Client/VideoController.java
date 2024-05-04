@@ -28,7 +28,7 @@ public class VideoController {
     @Autowired
     private VideoService videoService;
 
-    @CrossOrigin(origins = "http://35.229.131.138")
+    @CrossOrigin(origins = "*")
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file,
             @RequestParam("userID") String userID,
@@ -38,7 +38,7 @@ public class VideoController {
         return new ResponseEntity<>(videoService.addVideo(file, userID, thumbnail, timestamp), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://35.229.131.138")
+    @CrossOrigin(origins = "*")
     @GetMapping("/get/{id}")
     public ResponseEntity<ByteArrayResource> download(@PathVariable String id) throws IOException {
         Video loadFile = videoService.getVideo(id);
@@ -52,39 +52,39 @@ public class VideoController {
 
 
 
-    @CrossOrigin(origins = "http://35.229.131.138")
+    @CrossOrigin(origins = "*")
     @GetMapping("/getAllIds")
     public ResponseEntity<?> getAllID() {
         return new ResponseEntity<>(videoService.getAllVideoIDs(), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://35.229.131.138")
+    @CrossOrigin(origins = "*")
     @GetMapping("/listIdThumbnail")
     public ResponseEntity<?> listIdThumbnail() {
         return new ResponseEntity<>(videoService.listIdThumbnail(), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://35.229.131.138")
+    @CrossOrigin(origins = "*")
     @GetMapping("/getVideoIdFromThumbnailId/{id}")
     public ResponseEntity<?> getVideoIdFromThumbnailId(@PathVariable String id) {
         return new ResponseEntity<>(videoService.getVideoIdFromThumbnailId(id), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://35.229.131.138")
+    @CrossOrigin(origins = "*")
     @PutMapping("/updateViews/{id}")
     public ResponseEntity<?> updateViews(@PathVariable String id) {
         videoService.updateViews(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://35.229.131.138")
+    @CrossOrigin(origins = "*")
     @PutMapping("/updateLikes/{id}")
     public ResponseEntity<?> updateLikes(@PathVariable String id) {
         videoService.updateLikes(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://35.229.131.138")
+    @CrossOrigin(origins = "*")
     @PutMapping("/updateDislikes/{id}")
     public ResponseEntity<?> updateDislikes(@PathVariable String id) {
         videoService.updateDislikes(id);

@@ -70,7 +70,7 @@ public class CommentController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PutMapping("/increaseLikes/{id}")
     public ResponseEntity increaseLikes(@PathVariable("id") String id, @RequestParam int increment) {
         try {
@@ -84,7 +84,7 @@ public class CommentController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PutMapping("/increaseDislikes/{id}")
     public ResponseEntity increaseDislikes(@PathVariable("id") String id, @RequestParam int increment) {
         try {
@@ -98,7 +98,7 @@ public class CommentController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PutMapping("/decreaseLikes/{id}")
     public ResponseEntity decreaseLikes(@PathVariable("id") String id, @RequestParam int decrement) {
         try {
@@ -112,7 +112,7 @@ public class CommentController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PutMapping("/decreaseDislikes/{id}")
     public ResponseEntity decreaseDislikes(@PathVariable("id") String id, @RequestParam int decrement) {
         try {
