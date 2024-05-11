@@ -44,6 +44,8 @@ public class UserController {
         }
     }
 
+    //Previous Code
+    /* 
     @CrossOrigin(origins = "*")
     @PostMapping("/send-verification-email")
     public String sendVerificationEmail(@RequestBody String emailJson) {
@@ -60,7 +62,6 @@ public class UserController {
         message.setTo(email);
         System.out.println(email);
         message.setSubject("Xác thực đăng ký");
-        String loginLink = "*/login";
         message.setText("Xin chào, Bạn đã đăng ký tài khoản thành công!");
 
         try {
@@ -168,7 +169,128 @@ public class UserController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+    */
 
+    @CrossOrigin(origins = "*")
+    @PostMapping("/send-verification-email")
+    public ResponseEntity<String> sendVerificationEmail(@RequestBody String emailJson) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        System.out.println(emailJson);
+        Gson gson = new Gson();
+        Email emailObject = gson.fromJson(emailJson, Email.class);
 
+        // Extract email value
+        String email = emailObject.getEmail();
+
+        System.out.println(email);
+        System.out.println(email);
+        message.setTo(email);
+        System.out.println(email);
+        message.setSubject("Xác thực đăng ký");
+        String loginLink = "*/login";
+        message.setText("Xin chào, Bạn đã đăng ký tài khoản thành công!");
+
+        try {
+            javaMailSender.send(message);
+            return ResponseEntity.ok("Email xác thực đã được gửi thành công");
+        } catch (MailException e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Gửi email xác thực thất bại: " + e.getMessage());
+        }
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/register")
+    public ResponseEntity<AuthUser> registerUser(@RequestBody AuthUser user) {
+        try {
+            if (userRepository.findByUsername(user.getUsername()).isPresent())
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Chuyển về status CONFLICT nếu username đã tồn tại
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setFirstName(user.getFirstName());
+            user.setLastName(user.getLastName());
+            user.setTimestamp(new Timestamp(System.currentTimeMillis()));
+            user.setAvatar(getDefaultAvatar());
+            AuthUser save = userRepository.save(user);
+            return ResponseEntity.ok(save);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Trả về lỗi nếu có bất kỳ ngoại lệ nào xảy ra
+        }
+    }
+    
+    private byte[] getDefaultAvatar() throws IOException {
+        String defaultAvatarPath = "image-1.png"; // Replace with the actual path to the default avatar image
+        Path path = Paths.get(defaultAvatarPath);
+        return Files.readAllBytes(path);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/login2")
+    public ResponseEntity<AuthUser> loginUser(@RequestBody AuthUser user) {
+        try {
+            AuthUser userFromDb = userRepository.findByUsername(user.getUsername())
+                    .orElseThrow(() -> new Exception("User not found"));
+            if (passwordEncoder.matches(user.getPassword(), userFromDb.getPassword())) {
+                return ResponseEntity.ok(userFromDb);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/logout")
+    public ResponseEntity logoutUser() {
+        try {
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/listUser")
+    public ResponseEntity listUser() {
+        try {
+            return ResponseEntity.ok(userRepository.findAll());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/listUserbyUsername")
+    public ResponseEntity listUserbyUsername(@RequestBody AuthUser user) {
+        try {
+            return ResponseEntity.ok(userRepository.findByUsername(user.getUsername()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    
+    @CrossOrigin(origins = "*")
+    @GetMapping("/listUserbyId/{id}")
+    public ResponseEntity listUserbyId(@PathVariable("id") String id) {
+        try {
+            return ResponseEntity.ok(userRepository.findById(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @CrossOrigin(origins = "*")
+    @PutMapping("/updateProfile/{id}")
+    public ResponseEntity updateProfile(@PathVariable("id") String id, @RequestBody AuthUser user) {
+        try {
+            AuthUser userFromDb = userRepository.findById(id)
+                    .orElseThrow(() -> new Exception("User not found"));
+
+            userFromDb.setFirstName(user.getFirstName());
+            userFromDb.setLastName(user.getLastName());
+            AuthUser save = userRepository.save(userFromDb);
+
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }
 
