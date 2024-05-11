@@ -19,6 +19,7 @@ import java.util.Collection;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    
     @Bean
     public SecurityFilterChain defaultFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
