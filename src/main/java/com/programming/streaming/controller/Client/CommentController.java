@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.programming.streaming.entity.AuthUser;
 import com.programming.streaming.model.Comment;
 import com.programming.streaming.repository.Client.CommentRepository;
 import com.programming.streaming.service.CommentService;
