@@ -11,7 +11,11 @@
 FROM openjdk:17-jdk
 
 # Cài đặt các công cụ mạng cần thiết
-RUN apt-get update && apt-get install -y iputils-ping net-tools && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    iputils-ping \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
