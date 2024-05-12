@@ -15,7 +15,7 @@ FROM ubuntu:latest
 # Cài đặt OpenJDK 17
 RUN apt-get update && \
     apt-get install -y openjdk-17-jdk && \
-    apt-get -y install net-tools\
+    apt-get -y install net-tools && \
     rm -rf /var/lib/apt/lists/*
 
 # Thiết lập thư mục làm việc
