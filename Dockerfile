@@ -9,18 +9,15 @@
 # CMD [ "java", "-jar", "/app.jar" ]
 
 
-FROM eclipse-temurin:17-jdk-focal as build
 
-WORKDIR /build
+FROM openjdk:17-jdk
 
-COPY .mvn/ ./.mvn
-COPY mvnw pom.xml  ./
-RUN ./mvnw dependency:go-offline
+# Cài đặt công cụ mạng (ví dụ: ping)
+RUN apt-get update && apt-get install -y iputils-ping
 
-COPY . .
-RUN ./mvnw package -DskipTests
-
-FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
-COPY --from=build /build/target/*.jar run.jar
-ENTRYPOINT ["java", "-jar", "/app/run.jar"]
+
+COPY target/streaming-0.0.1-SNAPSHOT.jar /app.jar
+EXPOSE 8080
+
+CMD [ "java", "-jar", "/app.jar" ]
