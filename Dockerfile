@@ -9,11 +9,12 @@
 # CMD [ "java", "-jar", "/app.jar" ]
 
 
+
 FROM ubuntu:latest
 
-# Cài đặt các công cụ mạng
+# Cài đặt OpenJDK 17
 RUN apt-get update && \
-    apt-get install -y iproute2 iputils-ping netcat && \
+    apt-get install -y openjdk-17-jdk && \
     rm -rf /var/lib/apt/lists/*
 
 # Thiết lập thư mục làm việc
@@ -27,4 +28,3 @@ EXPOSE 8080
 
 # Lệnh chạy ứng dụng Java
 CMD [ "java", "-jar", "/app.jar" ]
-
