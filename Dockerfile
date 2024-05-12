@@ -13,7 +13,8 @@ FROM openjdk:17-jdk
 
 # Cài đặt các công cụ mạng
 RUN apt-get update && \
-    apt-get install -y iproute2 iputils-ping netcat
+    apt-get install -y iproute2 iputils-ping netcat && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
