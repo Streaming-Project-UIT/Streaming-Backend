@@ -7,9 +7,9 @@ on:
       - Dev
 
 env:
-  PROJECT_ID: devops-project-419807
-  CLUSTER_NAME: autopilot-cluster-2
-  ZONE: asia-east2
+  PROJECT_ID: gke-project-423206
+  CLUSTER_NAME: autopilot-cluster-1
+  ZONE: us-central1
 
 jobs:
   deploy:
@@ -51,9 +51,9 @@ jobs:
         env:
           GOOGLE_PROJECT: ${{ env.PROJECT_ID }}
         run: |
-          gcloud auth configure-docker asia-east2-docker.pkg.dev
-          docker build -t asia-east2-docker.pkg.dev/$GOOGLE_PROJECT/backend/gke_springapp:1.0 .
-          docker push asia-east2-docker.pkg.dev/$GOOGLE_PROJECT/backend/gke_springapp:1.0
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+          docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/backend/gke_springapp:1.0 .
+          docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/backend/gke_springapp:1.0
 
       # - name: Build Image
       #   uses: docker/build-push-action@v2
