@@ -15,6 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+		<netty-socketio.version>1.7.17</netty-socketio.version>
 	</properties>
 	<dependencies>
 <!-- 
@@ -88,6 +89,12 @@
 		</dependency>
 
 
+		<!-- https://mvnrepository.com/artifact/com.corundumstudio.socketio/netty-socketio -->
+		<dependency>
+			<groupId>com.corundumstudio.socketio</groupId>
+			<artifactId>netty-socketio</artifactId>
+            <version>${netty-socketio.version}</version>
+		</dependency>
 
 
 
