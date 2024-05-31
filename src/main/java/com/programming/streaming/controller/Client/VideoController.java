@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@CrossOrigin("*")
-@RequestMapping("video")
+@RequestMapping("/video")
 public class VideoController {
 
     @Autowired

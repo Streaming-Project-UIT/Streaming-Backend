@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
@@ -28,6 +29,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import java.sql.Timestamp;
 @RestController
 @AllArgsConstructor
+@RequestMapping("/user")
+
 public class UserController {
 
     private final AuthUserRepository userRepository;

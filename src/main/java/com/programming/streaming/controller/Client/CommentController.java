@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.programming.streaming.model.Comment;
 import com.programming.streaming.repository.Client.CommentRepository;
-//import com.programming.streaming.service.CommentService;
 
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/comment")
 @AllArgsConstructor
 public class CommentController {
 
