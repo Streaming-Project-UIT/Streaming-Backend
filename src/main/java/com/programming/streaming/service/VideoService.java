@@ -4,8 +4,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.programming.streaming.model.Video;
-
-import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -19,9 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Timestamp;
 
 @Service
 public class VideoService {
@@ -31,6 +30,9 @@ public class VideoService {
 
     @Autowired
     private GridFsOperations operations;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public String addVideo(MultipartFile upload, String userID, byte[] thumbnail, Timestamp timestamp)
             throws IOException {
@@ -47,29 +49,21 @@ public class VideoService {
         thumbnailMetadata.put("userID", userID);
         thumbnailMetadata.put("videoId", videoID.toString());
         thumbnailMetadata.put("timestamp", timestamp.toString());
-        Object thumbnailID = template.store(new ByteArrayInputStream(thumbnail),
-                upload.getOriginalFilename() + "_thumbnail", "image/png",
+        template.store(new ByteArrayInputStream(thumbnail), upload.getOriginalFilename() + "_thumbnail", "image/png",
                 thumbnailMetadata);
 
         return videoID.toString();
     }
 
     public List<String> getAllVideoIDs() {
-        Query query = new Query(); // Tạo một truy vấn mới
-        return template.find(query)
-                .map(GridFSFile::getObjectId)
-                .map(ObjectId::toString)
-                .into(new ArrayList<>());
+        Query query = new Query();
+        return template.find(query).map(GridFSFile::getObjectId).map(ObjectId::toString).into(new ArrayList<>());
     }
 
     public List<String> listIdThumbnail() {
         Query query = Query.query(Criteria.where("metadata._contentType").is("image/png"));
-        return template.find(query)
-                .map(GridFSFile::getObjectId)
-                .map(ObjectId::toString)
-                .into(new ArrayList<>());
+        return template.find(query).map(GridFSFile::getObjectId).map(ObjectId::toString).into(new ArrayList<>());
     }
-
 
     public String getVideoIdFromThumbnailId(String thumbnailId) {
         Query query = Query.query(Criteria.where("_id").is(thumbnailId));
@@ -77,31 +71,13 @@ public class VideoService {
         return gridFSFile.getMetadata().get("videoId").toString();
     }
 
-    public Video getVideo(String id) throws IOException {
-
-        // search file
+    public VideoWithStream getVideoWithStream(String id) throws IOException {
         GridFSFile gridFSFile = template.findOne(new Query(Criteria.where("_id").is(id)));
-
-        // convert uri to byteArray
-        // save data to LoadFile class
-        Video loadFile = new Video();
-
-        if (gridFSFile != null && gridFSFile.getMetadata() != null) {
-            loadFile.setFilename(gridFSFile.getFilename());
-
-            loadFile.setFileType(gridFSFile.getMetadata().get("_contentType").toString());
-
-            loadFile.setFileSize(gridFSFile.getMetadata().get("fileSize").toString());
-            loadFile.setFile(IOUtils.toByteArray(operations.getResource(gridFSFile).getInputStream()));
+        if (gridFSFile != null) {
+            return new VideoWithStream(gridFSFile, operations.getResource(gridFSFile).getInputStream());
         }
-
-        return loadFile;
+        return null;
     }
-
-   
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
 
     public void updateViews(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
@@ -120,5 +96,30 @@ public class VideoService {
         Update update = new Update().inc("dislikes", 1);
         mongoTemplate.updateFirst(query, update, "fs.files");
     }
-    
+
+    public static class VideoWithStream {
+        private GridFSFile gridFSFile;
+        private InputStream inputStream;
+
+        public VideoWithStream(GridFSFile gridFSFile, InputStream inputStream) {
+            this.gridFSFile = gridFSFile;
+            this.inputStream = inputStream;
+        }
+
+        public GridFSFile getGridFSFile() {
+            return gridFSFile;
+        }
+
+        public void setGridFSFile(GridFSFile gridFSFile) {
+            this.gridFSFile = gridFSFile;
+        }
+
+        public InputStream getInputStream() {
+            return inputStream;
+        }
+
+        public void setInputStream(InputStream inputStream) {
+            this.inputStream = inputStream;
+        }
+    }
 }

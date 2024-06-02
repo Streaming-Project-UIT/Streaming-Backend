@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
     
 @Repository
-public interface MessageRepository extends MongoRepository<Message, Long>{
+public interface MessageRepository extends MongoRepository<Message, String>{
     List<Message> findAllByRoom(String room);
 }
 
