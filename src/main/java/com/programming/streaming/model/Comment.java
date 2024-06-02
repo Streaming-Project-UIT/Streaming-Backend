@@ -17,6 +17,10 @@ public class Comment {
     @Indexed
     private String text;
     private String author;
+    private String userName;
+    private String videoId;
+    private String userId;
+    private int number;
     private int likes;
     private int dislikes;
 }
