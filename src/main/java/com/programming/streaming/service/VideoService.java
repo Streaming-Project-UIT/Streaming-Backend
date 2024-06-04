@@ -65,6 +65,12 @@ public class VideoService {
         return template.find(query).map(GridFSFile::getObjectId).map(ObjectId::toString).into(new ArrayList<>());
     }
 
+    public List<String> getThumbnailIdByUserId(String userId) {
+        Query query = Query.query(Criteria.where("metadata._contentType").is("image/png"));
+        query = query.addCriteria(Criteria.where("metadata.userID").is(userId));
+        return template.find(query).map(GridFSFile::getObjectId).map(ObjectId::toString).into(new ArrayList<>());
+    }
+
     public String getVideoIdFromThumbnailId(String thumbnailId) {
         Query query = Query.query(Criteria.where("_id").is(thumbnailId));
         GridFSFile gridFSFile = template.findOne(query);
@@ -121,5 +127,9 @@ public class VideoService {
         public void setInputStream(InputStream inputStream) {
             this.inputStream = inputStream;
         }
+    }
+    public Video getDetails(String videoId) {
+        Query query = new Query(Criteria.where("_id").is(videoId));
+        return mongoTemplate.findOne(query, Video.class, "fs.files");
     }
 }

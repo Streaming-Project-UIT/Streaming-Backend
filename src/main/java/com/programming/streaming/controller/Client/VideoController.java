@@ -83,6 +83,12 @@ public class VideoController {
     }
 
     @CrossOrigin(origins = "*")
+    @GetMapping("/getDetails/{videoId}")
+    public ResponseEntity<?> getDetails(@PathVariable String videoId) {
+        return new ResponseEntity<>(videoService.getDetails(videoId), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
     @GetMapping("/getAllIds")
     public ResponseEntity<?> getAllID() {
         return new ResponseEntity<>(videoService.getAllVideoIDs(), HttpStatus.OK);
@@ -92,6 +98,12 @@ public class VideoController {
     @GetMapping("/listIdThumbnail")
     public ResponseEntity<?> listIdThumbnail() {
         return new ResponseEntity<>(videoService.listIdThumbnail(), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/getThumbnailIdByUserId/{id}")
+    public ResponseEntity<?> getThumbnailIdByUserId(@PathVariable String id) {
+        return new ResponseEntity<>(videoService.getThumbnailIdByUserId(id), HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
