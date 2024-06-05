@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/video")
@@ -84,8 +85,8 @@ public class VideoController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/getDetails/{videoId}")
-    public ResponseEntity<?> getDetails(@PathVariable String videoId) {
-        return new ResponseEntity<>(videoService.getDetails(videoId), HttpStatus.OK);
+    public Map<String, Object> getVideoDetails(@PathVariable String videoId) {
+        return videoService.getDetails(videoId);
     }
 
     @CrossOrigin(origins = "*")

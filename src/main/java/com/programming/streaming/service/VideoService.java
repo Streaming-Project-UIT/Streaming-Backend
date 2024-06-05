@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class VideoService {
@@ -128,8 +129,13 @@ public class VideoService {
             this.inputStream = inputStream;
         }
     }
-    public Video getDetails(String videoId) {
+
+    public Map<String, Object> getDetails(String videoId) {
         Query query = new Query(Criteria.where("_id").is(videoId));
-        return mongoTemplate.findOne(query, Video.class, "fs.files");
+        DBObject dbObject = mongoTemplate.findOne(query, DBObject.class, "fs.files");
+        if (dbObject != null) {
+            return dbObject.toMap();
+        }
+        return null;
     }
 }
