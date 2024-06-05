@@ -75,7 +75,7 @@ public class UserController {
     }
 
     private byte[] getDefaultAvatar() throws IOException {
-        String defaultAvatarPath = "image-1.png"; // Replace with the actual path to the default avatar image
+        String defaultAvatarPath = "src/main/java/com/programming/streaming/images/avatar.png"; // Replace with the actual path to the default avatar image
         Path path = Paths.get(defaultAvatarPath);
         return Files.readAllBytes(path);
     }
