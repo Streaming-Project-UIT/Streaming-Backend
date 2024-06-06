@@ -8,4 +8,6 @@ public interface SubscriptionRepository extends MongoRepository<Subscription, St
     void deleteBySubscriberIdAndSubscribedToId(String subscriberId, String subscribedToId);
 
     boolean existsBySubscriberIdAndSubscribedToId(String subscriberId, String subscribedToId);
+
+    long countBySubscribedToId(String subscribedToId);
 }
