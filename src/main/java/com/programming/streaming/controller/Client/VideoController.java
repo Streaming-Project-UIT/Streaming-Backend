@@ -198,4 +198,11 @@ public class VideoController {
         boolean isSubscribed = videoService.isSubscribed(subscriberId, subscribedToId);
         return new ResponseEntity<>(isSubscribed, HttpStatus.OK);
     }
+    
+    @CrossOrigin(origins = "*")
+    @GetMapping("/getSubscriberCount")
+    public ResponseEntity<Long> getSubscriberCount(@RequestParam("userId") String userId) {
+        long subscriberCount = videoService.getSubscriberCount(userId);
+        return new ResponseEntity<>(subscriberCount, HttpStatus.OK);
+    }
 }

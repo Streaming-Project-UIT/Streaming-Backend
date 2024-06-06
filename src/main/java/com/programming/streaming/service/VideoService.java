@@ -56,6 +56,9 @@ public class VideoService {
         thumbnailMetadata.put("userID", userID);
         thumbnailMetadata.put("videoId", videoID.toString());
         thumbnailMetadata.put("timestamp", timestamp.toString());
+        thumbnailMetadata.put("description", description);
+        thumbnailMetadata.put("userName", userName);
+        thumbnailMetadata.put("videoName", videoName);
         template.store(new ByteArrayInputStream(thumbnail), upload.getOriginalFilename() + "_thumbnail", "image/png",
                 thumbnailMetadata);
 
@@ -163,5 +166,9 @@ public class VideoService {
 
     public boolean isSubscribed(String subscriberId, String subscribedToId) {
         return subscriptionRepository.existsBySubscriberIdAndSubscribedToId(subscriberId, subscribedToId);
+    }
+    
+    public long getSubscriberCount(String userId) {
+        return subscriptionRepository.countBySubscribedToId(userId);
     }
 }
