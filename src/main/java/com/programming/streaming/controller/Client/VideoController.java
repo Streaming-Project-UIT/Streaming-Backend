@@ -31,11 +31,15 @@ public class VideoController {
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file,
             @RequestParam("userID") String userID,
+            @RequestParam("description") String description,
+            @RequestParam("userName") String userName,
+            @RequestParam("videoName") String videoName,
             @RequestParam("thumbnail") MultipartFile thumbnailFile) throws IOException {
         byte[] thumbnail = thumbnailFile.getBytes();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        return new ResponseEntity<>(videoService.addVideo(file, userID, thumbnail, timestamp), HttpStatus.OK);
+        return new ResponseEntity<>(videoService.addVideo(file, userID, thumbnail, timestamp, description, userName, videoName), HttpStatus.OK);
     }
+
 
     @CrossOrigin(origins = "*")
     @GetMapping("/get/{id}")

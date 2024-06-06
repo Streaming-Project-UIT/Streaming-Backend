@@ -35,13 +35,16 @@ public class VideoService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public String addVideo(MultipartFile upload, String userID, byte[] thumbnail, Timestamp timestamp)
+    public String addVideo(MultipartFile upload, String userID, byte[] thumbnail, Timestamp timestamp, String description, String userName, String videoName)
             throws IOException {
         DBObject videoMetadata = new BasicDBObject();
         videoMetadata.put("fileSize", upload.getSize());
         videoMetadata.put("userID", userID);
         videoMetadata.put("videoId", new ObjectId().toString());
         videoMetadata.put("timestamp", timestamp.toString());
+        videoMetadata.put("description", description);
+        videoMetadata.put("userName", userName);
+        videoMetadata.put("videoName", videoName);
         Object videoID = template.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(),
                 videoMetadata);
 
