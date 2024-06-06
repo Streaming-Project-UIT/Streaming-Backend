@@ -172,4 +172,30 @@ public class VideoController {
             return result;
         }
     }
+
+
+    //Hanlde Subcri
+    @CrossOrigin(origins = "*")
+    @PostMapping("/subscribe")
+    public ResponseEntity<?> subscribe(@RequestParam("subscriberId") String subscriberId,
+            @RequestParam("subscribedToId") String subscribedToId) {
+        videoService.subscribe(subscriberId, subscribedToId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/unsubscribe")
+    public ResponseEntity<?> unsubscribe(@RequestParam("subscriberId") String subscriberId,
+            @RequestParam("subscribedToId") String subscribedToId) {
+        videoService.unsubscribe(subscriberId, subscribedToId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/isSubscribed")
+    public ResponseEntity<Boolean> isSubscribed(@RequestParam("subscriberId") String subscriberId,
+            @RequestParam("subscribedToId") String subscribedToId) {
+        boolean isSubscribed = videoService.isSubscribed(subscriberId, subscribedToId);
+        return new ResponseEntity<>(isSubscribed, HttpStatus.OK);
+    }
 }

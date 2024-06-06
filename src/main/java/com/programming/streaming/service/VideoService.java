@@ -3,7 +3,10 @@ package com.programming.streaming.service;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import com.programming.streaming.model.Subscription;
 import com.programming.streaming.model.Video;
+import com.programming.streaming.repository.Client.SubscriptionRepository;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -140,5 +143,25 @@ public class VideoService {
             return dbObject.toMap();
         }
         return null;
+    }
+
+
+
+
+    // Handle Subcribe
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
+
+    public void subscribe(String subscriberId, String subscribedToId) {
+        Subscription subscription = new Subscription(subscriberId, subscribedToId);
+        subscriptionRepository.save(subscription);
+    }
+
+    public void unsubscribe(String subscriberId, String subscribedToId) {
+        subscriptionRepository.deleteBySubscriberIdAndSubscribedToId(subscriberId, subscribedToId);
+    }
+
+    public boolean isSubscribed(String subscriberId, String subscribedToId) {
+        return subscriptionRepository.existsBySubscriberIdAndSubscribedToId(subscriberId, subscribedToId);
     }
 }
