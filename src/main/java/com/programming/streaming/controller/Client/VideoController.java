@@ -205,4 +205,37 @@ public class VideoController {
         long subscriberCount = videoService.getSubscriberCount(userId);
         return new ResponseEntity<>(subscriberCount, HttpStatus.OK);
     }
+
+
+    //Handle Like
+    @CrossOrigin(origins = "*")
+    @PostMapping("/like")
+    public ResponseEntity<?> like(@RequestParam("likerToId") String likerToId,
+            @RequestParam("likedToId") String likedToId) {
+        videoService.like(likerToId, likedToId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/unlike")
+    public ResponseEntity<?> unlike(@RequestParam("likerToId") String likerToId,
+            @RequestParam("likedToId") String likedToId) {
+        videoService.unlike(likerToId, likedToId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/isLiked")
+    public ResponseEntity<Boolean> isLiked(@RequestParam("likerToId") String likerToId,
+            @RequestParam("likedToId") String likedToId) {
+        boolean isLiked = videoService.isLiked(likerToId, likedToId);
+        return new ResponseEntity<>(isLiked, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/getLikeCount")
+    public ResponseEntity<Long> getLikeCount(@RequestParam("videoId") String videoId) {
+        long likeCount = videoService.getLikeCount(videoId);
+        return new ResponseEntity<>(likeCount, HttpStatus.OK);
+    }
 }

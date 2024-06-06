@@ -3,8 +3,10 @@ package com.programming.streaming.service;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import com.programming.streaming.model.Like;
 import com.programming.streaming.model.Subscription;
 import com.programming.streaming.model.Video;
+import com.programming.streaming.repository.Client.LikeRepository;
 import com.programming.streaming.repository.Client.SubscriptionRepository;
 
 import org.bson.types.ObjectId;
@@ -170,5 +172,26 @@ public class VideoService {
     
     public long getSubscriberCount(String userId) {
         return subscriptionRepository.countBySubscribedToId(userId);
+    }
+
+    // Handle Like
+    @Autowired
+    private LikeRepository likeRepository;
+
+    public void like(String likerToId, String likedToId) {
+        Like like = new Like(likerToId, likedToId);
+        likeRepository.save(like);
+    }
+    
+    public void unlike(String likerToId, String likedToId) {
+        likeRepository.deleteByLikerToIdAndLikedToId(likerToId, likedToId);
+    }
+
+    public boolean isLiked(String likerToId, String likedToId) {
+        return likeRepository.existsByLikerToIdAndLikedToId(likerToId, likedToId);
+    }
+
+    public long getLikeCount(String videoId) {
+        return likeRepository.countByLikedToId(videoId);
     }
 }
