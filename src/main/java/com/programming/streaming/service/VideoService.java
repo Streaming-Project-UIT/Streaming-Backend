@@ -27,7 +27,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class VideoService {
@@ -84,19 +83,11 @@ public class VideoService {
         return template.find(query).map(GridFSFile::getObjectId).map(ObjectId::toString).into(new ArrayList<>());
     }
     
-    public List<Map<String, Object>> getDetailsByUserId(String userId) {
+    public ArrayList<String> getDetailsByUserId(String userId) {
         Query query = Query.query(Criteria.where("metadata._contentType").is("image/png"));
-        query.addCriteria(Criteria.where("metadata.userID").is(userId));
+        query = query.addCriteria(Criteria.where("metadata.userID").is(userId));
+        return template.find(query).map(GridFSFile::getObjectId).map(ObjectId::toString).into(new ArrayList<>());
 
-        return mongoTemplate.find(query, DBObject.class, "fs.files").stream()
-                .map(dbObject -> {
-                    Map<String, Object> map = dbObject.toMap();
-                    if (dbObject.containsField("_id") && dbObject.get("_id") instanceof ObjectId) {
-                        map.put("_id", dbObject.get("_id").toString());
-                    }
-                    return map;
-                })
-                .collect(Collectors.toList());
     }
 
     public String getVideoIdFromThumbnailId(String thumbnailId) {
