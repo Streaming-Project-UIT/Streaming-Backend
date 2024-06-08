@@ -82,6 +82,13 @@ public class VideoService {
         query = query.addCriteria(Criteria.where("metadata.userID").is(userId));
         return template.find(query).map(GridFSFile::getObjectId).map(ObjectId::toString).into(new ArrayList<>());
     }
+    
+    public List<Map<String, Object>> getDetailsByUserId(String userId) {
+        Query query = Query.query(Criteria.where("metadata._contentType").is("image/png"));
+        query = query.addCriteria(Criteria.where("metadata.userID").is(userId));
+        return mongoTemplate.find(query, DBObject.class, "fs.files").stream().map(DBObject::toMap)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+    }
 
     public String getVideoIdFromThumbnailId(String thumbnailId) {
         Query query = Query.query(Criteria.where("_id").is(thumbnailId));
@@ -149,6 +156,7 @@ public class VideoService {
         }
         return null;
     }
+
 
 
 

@@ -94,6 +94,12 @@ public class VideoController {
     }
 
     @CrossOrigin(origins = "*")
+    @GetMapping("/getDetailsByUserId/{userId}")
+    public ResponseEntity<?> getVideoDetailsByUserId(@PathVariable String userId) {
+        return new ResponseEntity<>(videoService.getDetailsByUserId(userId), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
     @GetMapping("/getAllIds")
     public ResponseEntity<?> getAllID() {
         return new ResponseEntity<>(videoService.getAllVideoIDs(), HttpStatus.OK);
