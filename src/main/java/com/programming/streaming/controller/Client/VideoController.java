@@ -244,5 +244,12 @@ public class VideoController {
         long likeCount = videoService.getLikeCount(videoId);
         return new ResponseEntity<>(likeCount, HttpStatus.OK);
     }
-    
+
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/getIdFromLikerToId/{likerToId}")
+    public ResponseEntity<?> getIdFromLikerToId(@PathVariable String likerToId) {
+        return new ResponseEntity<>(videoService.getLikedToIdsFromLikerToId(likerToId), HttpStatus.OK);
+    }
+
 }

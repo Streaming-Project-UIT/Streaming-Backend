@@ -202,4 +202,18 @@ public class VideoService {
     public long getLikeCount(String videoId) {
         return likeRepository.countByLikedToId(videoId);
     }
+
+
+    public List<String> getLikedToIdsFromLikerToId(String likerToId) {
+        Query query = Query.query(Criteria.where("likerToId").is(likerToId));
+        List<Like> likes = mongoTemplate.find(query, Like.class);
+
+        List<String> likedToIds = new ArrayList<>();
+        for (Like like : likes) {
+            likedToIds.add(like.getLikedToId());
+        }
+
+        return likedToIds;
+    }
+    
 }
