@@ -30,6 +30,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/upload")
     public ResponseEntity<?> uploadComment(@RequestBody Comment comment) {
         try {
@@ -40,6 +41,7 @@ public class CommentController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getComment(@PathVariable String id) {
         try {
@@ -51,6 +53,7 @@ public class CommentController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllComments() {
         try {
@@ -60,6 +63,17 @@ public class CommentController {
         }
     }
 
+    @CrossOrigin(origins = "*")
+    @GetMapping("/getAllCommentByVideoId/{videoId}")
+    public ResponseEntity<?> getAllCommentByVideoId(@PathVariable String videoId) {
+        try {
+            return ResponseEntity.ok(commentRepository.findAllByVideoId(videoId));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @CrossOrigin(origins = "*")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateComment(@PathVariable("id") String id, @RequestBody Comment comment) {
         try {
@@ -129,6 +143,7 @@ public class CommentController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("/delete/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable String id) {
         try {
@@ -139,6 +154,7 @@ public class CommentController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/getALLCommentByVideoId/{videoId}")
     public ResponseEntity<?> getCommentByVideoId(@PathVariable String videoId) {
         List<Comment> comments = commentService.getCommentsByVideoId(videoId);
@@ -149,6 +165,8 @@ public class CommentController {
         }
     }
 
+
+    @CrossOrigin(origins = "*")
     @PostMapping("/relyCommentByCommentId/{commentId}")
     public ResponseEntity<?> relyCommentByCommentId(@PathVariable String commentId, @RequestBody Comment comment) {
         try {
