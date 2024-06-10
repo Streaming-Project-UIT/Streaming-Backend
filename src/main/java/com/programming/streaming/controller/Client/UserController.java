@@ -7,7 +7,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
 import com.programming.streaming.entity.AuthUser;
+import com.programming.streaming.model.Notification;
 import com.programming.streaming.repository.Client.AuthUserRepository;
+import com.programming.streaming.repository.Client.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -190,6 +192,30 @@ public class UserController {
 
         public void setNewPassword(String newPassword) {
             this.newPassword = newPassword;
+        }
+    }
+
+    //handle notify
+    @Autowired
+    private NotificationRepository NotificationRepository;
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/addNotify")
+    public ResponseEntity addNotify(@RequestBody Notification notification) {
+        try {
+            return ResponseEntity.ok(NotificationRepository.save(notification));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/getNotifyByUserId/{userId}")
+    public ResponseEntity getNotifyByUserId(@PathVariable("userId") String userId) {
+        try {
+            return ResponseEntity.ok(NotificationRepository.findByUserId(userId));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }
