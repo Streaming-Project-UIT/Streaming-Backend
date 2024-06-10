@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.google.gson.Gson;
 import com.programming.streaming.entity.AuthUser;
 import com.programming.streaming.model.Notification;
@@ -214,6 +216,26 @@ public class UserController {
     public ResponseEntity getNotifyByUserId(@PathVariable("userId") String userId) {
         try {
             return ResponseEntity.ok(NotificationRepository.findByUserId(userId));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    //change avatar
+    @CrossOrigin(origins = "*")
+    @PutMapping("/changeAvatar/{id}")
+    public ResponseEntity changeAvatar(@PathVariable("id") String id, @RequestParam("avatar") MultipartFile avatarFile) {
+        try {
+            AuthUser userFromDb = userRepository.findById(id)
+                    .orElseThrow(() -> new Exception("User not found"));
+
+            byte[] avatarBytes = avatarFile.getBytes();
+            userFromDb.setAvatar(avatarBytes);
+            AuthUser save = userRepository.save(userFromDb);
+
+            return ResponseEntity.ok("Avatar changed successfully");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to read avatar file");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
