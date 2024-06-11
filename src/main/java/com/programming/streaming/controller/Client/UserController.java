@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.Date;
 
 @RestController
@@ -164,13 +165,13 @@ public class UserController {
                     .orElseThrow(() -> new Exception("User not found"));
 
             if (!passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), userFromDb.getPassword())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Current password is incorrect");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
             }
 
             userFromDb.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
             AuthUser save = userRepository.save(userFromDb);
 
-            return ResponseEntity.ok("Password changed successfully");
+            return ResponseEntity.ok(true);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
@@ -224,18 +225,21 @@ public class UserController {
     //change avatar
     @CrossOrigin(origins = "*")
     @PutMapping("/changeAvatar/{id}")
-    public ResponseEntity changeAvatar(@PathVariable("id") String id, @RequestParam("avatar") MultipartFile avatarFile) {
+    public ResponseEntity changeAvatar(@PathVariable("id") String id, @RequestParam("avatar") String base64Avatar) {
         try {
             AuthUser userFromDb = userRepository.findById(id)
                     .orElseThrow(() -> new Exception("User not found"));
-
-            byte[] avatarBytes = avatarFile.getBytes();
+    
+            // Chuyển đổi chuỗi base64 thành mảng byte
+            byte[] avatarBytes = Base64.getDecoder().decode(base64Avatar);
+    
             userFromDb.setAvatar(avatarBytes);
-            AuthUser save = userRepository.save(userFromDb);
-
+            AuthUser savedUser = userRepository.save(userFromDb);
+    
             return ResponseEntity.ok("Avatar changed successfully");
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to read avatar file");
+        } catch (IllegalArgumentException e) {
+            // Xảy ra khi chuỗi base64 không hợp lệ
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid base64 string");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
