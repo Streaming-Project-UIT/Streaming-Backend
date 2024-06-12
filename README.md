@@ -1,5 +1,9 @@
 # Video Sharing Application
 
+<div align="center">
+    <img src="images/logo.png" width="40%" alt="Logo">
+</div>
+
 ## Overview
 
 This is a Video Sharing Application built using Spring Boot, React, and MongoDB. The application allows users to register, login, upload videos (including thumbnails and details), view videos, comment on videos, and like videos. 
