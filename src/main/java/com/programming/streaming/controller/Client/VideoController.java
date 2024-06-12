@@ -151,6 +151,13 @@ public class VideoController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
+    @PutMapping("/editVideoName/{id}")
+    public ResponseEntity<?> editVideoName(@PathVariable String id, @RequestParam("videoName") String videoName) {
+        videoService.editVideoName(id, videoName);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     private static class LimitedInputStream extends InputStream {
         private final InputStream in;
         private long remaining;
