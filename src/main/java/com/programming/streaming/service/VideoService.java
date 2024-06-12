@@ -3,9 +3,11 @@ package com.programming.streaming.service;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import com.programming.streaming.model.History;
 import com.programming.streaming.model.Like;
 import com.programming.streaming.model.Subscription;
 import com.programming.streaming.model.Video;
+import com.programming.streaming.repository.Client.HistoryRepository;
 import com.programming.streaming.repository.Client.LikeRepository;
 import com.programming.streaming.repository.Client.SubscriptionRepository;
 
@@ -215,5 +217,26 @@ public class VideoService {
 
         return likedToIds;
     }
+
+    //Hanlde History
+
+    @Autowired
+    private HistoryRepository historyRepository;
     
+    public void addHistory(String userId, String thumbId) {
+        History history = new History(userId, thumbId);
+        historyRepository.save(history);
+    }
+
+    public List<String> getHistoryByUserId(String userId) {
+        Query query = Query.query(Criteria.where("userId").is(userId));
+        List<History> histories = mongoTemplate.find(query, History.class);
+
+        List<String> thumbIds = new ArrayList<>();
+        for (History history : histories) {
+            thumbIds.add(history.getThumbId());
+        }
+
+        return thumbIds;
+    }
 }

@@ -252,4 +252,20 @@ public class VideoController {
         return new ResponseEntity<>(videoService.getLikedToIdsFromLikerToId(likerToId), HttpStatus.OK);
     }
 
+
+    // Hanlde History
+    @CrossOrigin(origins = "*")
+    @PostMapping("/addHistory")
+    public ResponseEntity<?> addHistory(@RequestParam("userId") String userId,
+            @RequestParam("thumbId") String thumbId) {
+        videoService.addHistory(userId, thumbId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/getHistoryByUserId/{userId}")
+    public ResponseEntity<?> getHistoryByUserId(@PathVariable String userId) {
+        return new ResponseEntity<>(videoService.getHistoryByUserId(userId), HttpStatus.OK);
+    }
+    
 }
