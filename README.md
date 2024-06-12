@@ -103,14 +103,7 @@ The application follows the Model-View-Controller (MVC) architectural pattern.
     - Browse and view videos uploaded by users.
 ![ViewVideo](images/viewVideo.png)
 
-1. **Register new user:**
-    - Go to the registration page and create a new account
-![Register](images/register.png)
 
-
-2. **Login:**
-    - Login with your credentials.
-![Login](images/login.png)
 
 3. **Upload video:**
     - Navigate to the upload section and upload your video along with the thumbnail and details.
@@ -119,11 +112,6 @@ The application follows the Model-View-Controller (MVC) architectural pattern.
 
 
 
-
-
-5. **Comment and like videos:**
-    - Comment on videos and like them.
-![Comment](images/comment.png)
 
 
 6. **History:**
@@ -142,6 +130,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact
 
 ## Demo
+
+
+## Report
+
+For detailed information about the project, please refer to the [project report](images/Report.pdf).
 
 
 
