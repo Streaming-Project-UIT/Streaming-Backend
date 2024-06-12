@@ -125,6 +125,11 @@ public class VideoService {
         Update update = new Update().inc("dislikes", 1);
         mongoTemplate.updateFirst(query, update, "fs.files");
     }
+    public void editDescription(String id, String description) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update().set("metadata.description", description);
+        mongoTemplate.updateFirst(query, update, "fs.files");
+    }
 
     public static class VideoWithStream {
         private GridFSFile gridFSFile;

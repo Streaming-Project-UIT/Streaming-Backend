@@ -23,4 +23,5 @@ public class Comment {
     private int number;
     private int likes;
     private int dislikes;
+    private boolean isRely;
 }
