@@ -13,6 +13,7 @@ import com.programming.streaming.repository.Client.SubscriptionRepository;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -229,13 +231,15 @@ public class VideoService {
     }
 
     public List<String> getHistoryByUserId(String userId) {
-        Query query = Query.query(Criteria.where("userId").is(userId));
+        Query query = new Query(Criteria.where("userId").is(userId)).with(Sort.by(Sort.Direction.DESC, "timestamp"));
         List<History> histories = mongoTemplate.find(query, History.class);
 
-        List<String> thumbIds = new ArrayList<>();
+        Map<String, History> thumbIdMap = new LinkedHashMap<>();
         for (History history : histories) {
-            thumbIds.add(history.getThumbId());
+            thumbIdMap.putIfAbsent(history.getThumbId(), history);
         }
+
+        List<String> thumbIds = new ArrayList<>(thumbIdMap.keySet());
 
         return thumbIds;
     }
