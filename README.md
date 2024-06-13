@@ -124,9 +124,11 @@ The application follows the Model-View-Controller (MVC) architectural pattern.
 7. **Notification:**
 
 
-## Contributing
+## Contributors
 - [Trinh Tan Dat](https://github.com/Trinh-Tan-Dat)
 - [Nguyen Thanh Dang](https://github.com/thelight3007)
+- [Nguyen Tran Bao Quoc](https://github.com/TonyQ2k3)
+- [Ta Duc Bao](https://github.com/DucBaoUIT)
 
 
 ## License
