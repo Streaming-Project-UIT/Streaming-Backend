@@ -8,6 +8,8 @@ public class Video {
     private String description;
     private String userID;
     private byte[] thumbnail;
+    private String userName;
+    private String videoName;
     // private int views;
     // private int likes;
     // private int dislikes;
@@ -67,6 +69,21 @@ public class Video {
 
     public void setThumbnail(byte[] thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setVideoName(String videoName) {
+        this.videoName = videoName;
+    }
+    public String getVideoName() {
+        return videoName;
     }
 
     // public int getViews() {

@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    
+    // Security
     @Bean
     public SecurityFilterChain defaultFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
