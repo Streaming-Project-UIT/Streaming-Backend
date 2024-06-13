@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import com.corundumstudio.socketio.SocketIOServer;
 
 @Configuration
+//Socket configuration
 public class SocketIOConfig {
     @Value("${socket-server.host}")
     private String host;
