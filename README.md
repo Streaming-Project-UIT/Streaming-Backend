@@ -1,7 +1,7 @@
 # Video Sharing Application
 
 <div align="center">
-    <img src="images/logo_new.png" width="40%" alt="Logo">
+    <img src="images/logo.png" width="40%" alt="Logo">
 </div>
 
 ## Overview

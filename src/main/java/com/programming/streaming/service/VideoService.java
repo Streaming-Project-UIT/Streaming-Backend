@@ -5,6 +5,7 @@ import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.programming.streaming.model.History;
 import com.programming.streaming.model.Like;
+import com.programming.streaming.model.Report;
 import com.programming.streaming.model.Subscription;
 import com.programming.streaming.model.Video;
 import com.programming.streaming.repository.Client.HistoryRepository;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -253,5 +255,30 @@ public class VideoService {
         List<String> thumbIds = new ArrayList<>(thumbIdMap.keySet());
 
         return thumbIds;
+    }
+
+    //hanlde Report
+    public void uploadReport(String videoId, String msg, String userId) {
+        Report report = new Report(videoId, msg, userId);
+        mongoTemplate.save(report);
+    }
+
+    public List<String> getReportsWithHighFrequencyVideoIds() {
+        List<Report> reports = mongoTemplate.findAll(Report.class);
+        Map<String, Integer> videoIdCount = new HashMap<>();
+
+        for (Report report : reports) {
+            String videoId = report.getVideoId();
+            videoIdCount.put(videoId, videoIdCount.getOrDefault(videoId, 0) + 1);
+        }
+
+        List<String> highFrequencyVideoIds = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : videoIdCount.entrySet()) {
+            if (entry.getValue() > 5) {
+                highFrequencyVideoIds.add(entry.getKey());
+            }
+        }
+
+        return highFrequencyVideoIds;
     }
 }

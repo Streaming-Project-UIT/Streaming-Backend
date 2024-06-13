@@ -37,9 +37,10 @@ public class VideoController {
             @RequestParam("thumbnail") MultipartFile thumbnailFile) throws IOException {
         byte[] thumbnail = thumbnailFile.getBytes();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        return new ResponseEntity<>(videoService.addVideo(file, userID, thumbnail, timestamp, description, userName, videoName), HttpStatus.OK);
+        return new ResponseEntity<>(
+                videoService.addVideo(file, userID, thumbnail, timestamp, description, userName, videoName),
+                HttpStatus.OK);
     }
-
 
     @CrossOrigin(origins = "*")
     @GetMapping("/get/{id}")
@@ -193,7 +194,6 @@ public class VideoController {
         }
     }
 
-
     //Hanlde Subcri
     @CrossOrigin(origins = "*")
     @PostMapping("/subscribe")
@@ -218,14 +218,13 @@ public class VideoController {
         boolean isSubscribed = videoService.isSubscribed(subscriberId, subscribedToId);
         return new ResponseEntity<>(isSubscribed, HttpStatus.OK);
     }
-    
+
     @CrossOrigin(origins = "*")
     @GetMapping("/getSubscriberCount")
     public ResponseEntity<Long> getSubscriberCount(@RequestParam("userId") String userId) {
         long subscriberCount = videoService.getSubscriberCount(userId);
         return new ResponseEntity<>(subscriberCount, HttpStatus.OK);
     }
-
 
     //Handle Like
     @CrossOrigin(origins = "*")
@@ -259,13 +258,11 @@ public class VideoController {
         return new ResponseEntity<>(likeCount, HttpStatus.OK);
     }
 
-
     @CrossOrigin(origins = "*")
     @GetMapping("/getIdFromLikerToId/{likerToId}")
     public ResponseEntity<?> getIdFromLikerToId(@PathVariable String likerToId) {
         return new ResponseEntity<>(videoService.getLikedToIdsFromLikerToId(likerToId), HttpStatus.OK);
     }
-
 
     // Hanlde History
     @CrossOrigin(origins = "*")
@@ -281,5 +278,21 @@ public class VideoController {
     public ResponseEntity<?> getHistoryByUserId(@PathVariable String userId) {
         return new ResponseEntity<>(videoService.getHistoryByUserId(userId), HttpStatus.OK);
     }
-    
+
+    //handle Report
+    @CrossOrigin(origins = "*")
+    @PostMapping("/uploadReport")
+    public ResponseEntity<?> uploadReport(@RequestParam("videoId") String videoId,
+            @RequestParam("msg") String msg,
+            @RequestParam("userId") String userId) {
+        videoService.uploadReport(videoId, msg, userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/videoIdLargerThanFive")
+    public ResponseEntity<?> videoIdLargerThanFive() {
+        return new ResponseEntity<>(videoService.getReportsWithHighFrequencyVideoIds(), HttpStatus.OK);
+    }
+
 }
