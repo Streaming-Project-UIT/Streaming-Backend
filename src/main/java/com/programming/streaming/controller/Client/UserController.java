@@ -248,7 +248,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
+    @CrossOrigin(origins = "*")
     @GetMapping("/listUser")
     public ResponseEntity listUser() {
         try {
@@ -257,7 +257,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
+    @CrossOrigin(origins = "*")
     @GetMapping("/listUserbyUsername")
     public ResponseEntity listUserbyUsername(@RequestBody AuthUser user) {
         try {

@@ -246,6 +246,7 @@ public class CommentController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("/delete/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable String id) {
         try {
